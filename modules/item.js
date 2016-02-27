@@ -2,23 +2,25 @@
 * @Author: willclass
 * @Date:   2016-02-24 11:46:05
 * @Last Modified by:   willclass
-* @Last Modified time: 2016-02-26 16:54:04
+* @Last Modified time: 2016-02-27 10:45:59
 */
-
+// manifest="cache.manifest"
 'use strict';
 
 var React = require("react");
 var Link = require('react-router').Link;
-var arr = require("./array.js").create(1228);
-	arr =arr.slice(0,100);
-var sina = "http://ww2.sinaimg.cn/mw600/";
-
+var Arr = require("./array.js");
+var sina = "http://ww2.sinaimg.cn/mw600/",arr;
+	arr = Arr.create(1228).slice(0,100);
 var Item = React.createClass({
 	getInitialState:function(){
 		return {data:null,isload:false,isshowAnswer:false,curid:parseInt(this.props.params.itemid)}
 	},
 	componentDidMount:function(){
 		 var index = parseInt(this.state.curid);
+		 if (index==0) {
+		 	arr = Arr.create(1228).slice(0,100);
+		 }
 		 var _this = this;
 		 var cid = arr[index];
 		 $.get("http://api.ibeeger.com/driving/"+cid,function(data){
@@ -36,7 +38,6 @@ var Item = React.createClass({
 	},
 	showanswer:function(arg){
 		var data = this.state.data;
-		console.log(data.ta-1);
 		var _this = this;
 		if ($(arg.target).index() != (data.ta-1)) {
 			try{
